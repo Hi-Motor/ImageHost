@@ -1,0 +1,49 @@
+script_dir=$(cd $(dirname $0);pwd)
+cd $script_dir
+
+# git operations
+if true
+then
+	git pull
+	git add .
+	git commit -m '$currentTime'
+	git push
+fi
+
+# get time as identify
+currentTime=$( date "+%Y-%m-%d" )
+echo '========================'
+echo 'today:' $currentTime
+
+# get OS
+uNames=`uname -s`
+osName=${uNames: 0: 4}
+
+# print urls
+repo='Hi-Motor/ImageHost'
+images=$( ls -d */* |grep $currentTime )
+for image in $images
+do
+	fullURL='https://cdn.jsdelivr.net/gh/'$repo'@main/'$image
+	echo $fullURL
+done
+
+# redirect to clipboard
+if [ "$osName" == "Darw" ] # Darwin
+then
+	echo $fullURL | pbcopy
+elif [ "$osName" == "Linu" ] # Linux
+then
+	echo $fullURL | xsel
+elif [ "$osName" == "MING" ] # MINGW, windows, git-bash
+then 
+    echo $fullURL | clip
+else
+	echo "Error:Unknown OS"
+fi
+
+echo 'url ->> Clipboard'
+
+echo '========================'
+read -p 'press any key to exit' -n 1 -s
+exit

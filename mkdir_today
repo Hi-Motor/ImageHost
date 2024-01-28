@@ -1,0 +1,16 @@
+script_dir=$(cd $(dirname $0);pwd)
+cd $script_dir
+
+currentTime=$( date "+%Y-%m-%d" )
+folderName=$currentTime
+
+if [ -d $folderName ]
+then
+	echo folder $currentTime existed
+else
+	mkdir $folderName
+fi
+
+
+
+
